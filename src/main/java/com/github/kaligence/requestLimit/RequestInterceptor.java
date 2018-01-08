@@ -54,13 +54,13 @@ public class RequestInterceptor {
 
     @Around("controllerAspect()")
     public JSONObject doAround(ProceedingJoinPoint proceedingjoinPoint) throws Exception {
-        System.out.println(">>>>>SysLogAspect环绕通知开始<<<<<");
+        System.out.println(">>>>>SysLogAspect环绕通知开始=====");
         return requestLimit(proceedingjoinPoint);
     }
 
     @After("controllerAspect()")
     public void doAfter() throws Exception {
-        System.out.println("=====SysLogAspect后置通知开始>>>>>");
+        System.out.println("=====SysLogAspect后置通知开始<<<<<");
         // requestLimit(joinPoint);
     }
 
@@ -154,6 +154,8 @@ public class RequestInterceptor {
             e.printStackTrace();
         } catch (Throwable e) {
             e.printStackTrace();
+        } finally {
+            jedisPool.close();
         }
         return jsonObj;
     }
