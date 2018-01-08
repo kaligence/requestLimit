@@ -159,27 +159,4 @@ public class RequestInterceptor {
         }
         return jsonObj;
     }
-
-//	/**
-//	 * resetMap定时任务
-//	 */
-//	private void task_resetMap(long timeLimit) {
-//		Runnable runnable = new Runnable() {
-//			public void run() {
-//				try {
-//					resetMap();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//		service.scheduleAtFixedRate(runnable, timeLimit, timeLimit, TimeUnit.SECONDS);// 7000s后开始定时任务，每7000s执行一次
-//	}
-//
-//	protected void resetMap() {
-//		// 重置访问次数
-//		map.put(ip, 0);
-//		count = 0;
-//	}
 }
