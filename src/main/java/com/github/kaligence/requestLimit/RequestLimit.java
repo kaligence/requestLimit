@@ -19,4 +19,9 @@ public @interface RequestLimit {
      * 请求限制单位时间 /s
      */
     long requestTime() default 60L;
+
+    /*
+     * 默认不打开调试模式
+     */
+    boolean debug() default false;
 }

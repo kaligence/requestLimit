@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 @Component
 public class RequestInterceptor {
 
-    @Resource(name = "jedisPool_web")
+    @Resource(name = "jedisPool")
     private JedisPool jedisPool;
 
     private static Logger logger = Logger.getLogger(RequestInterceptor.class);
@@ -54,13 +54,13 @@ public class RequestInterceptor {
 
     @Around("controllerAspect()")
     public JSONObject doAround(ProceedingJoinPoint proceedingjoinPoint) throws Exception {
-        System.out.println(">>>>>SysLogAspect环绕通知开始=====");
+//        System.out.println(">>>>>SysLogAspect环绕通知开始=====");
         return requestLimit(proceedingjoinPoint);
     }
 
     @After("controllerAspect()")
     public void doAfter() throws Exception {
-        System.out.println("=====SysLogAspect后置通知开始<<<<<");
+//        System.out.println("=====SysLogAspect后置通知开始<<<<<");
         // requestLimit(joinPoint);
     }
 
@@ -122,9 +122,11 @@ public class RequestInterceptor {
 //				jedis.expireAt(ip, limit.requestTime());
 //            }
             if (Integer.valueOf(jedis.get(ip)) > limit.requestCount()) {
-                logger.info(">>>用户IP[" + ip + "]访问地址[" + url + "]超过了限定的次数[" + limit.requestCount() + "]");
-//              jedis.expireAt(ip, limit.requestTime()*1000);
-                logger.info(">>>key剩余时间：" + jedis.ttl(ip));
+                if (limit.debug()) {
+                    logger.info(">>>用户IP[" + ip + "]访问地址[" + url + "]超过了限定的次数[" + limit.requestCount() + "]");
+//                  jedis.expireAt(ip, limit.requestTime()*1000);
+                    logger.info(">>>key剩余时间：" + jedis.ttl(ip));
+                }
                 jsonObj.put("limit", true);
             } else {
                 jsonObj = (JSONObject) proceedingJoinPoint.proceed();
